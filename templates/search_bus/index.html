@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load set_val %}
 {% block title %}
-首页
+实时公交查询
 {% endblock title %}
 
 {% block content %}
@@ -39,7 +39,7 @@
     <div class="row">
         <div class="col-12">
             <br>
-            <form method="post" action="/search/reverse/">
+            <form method="post" action="{% url 'search_bus:reverse' %}">
                 {% csrf_token %}
                  <button type="submit" class="btn btn-primary" style="float:left;">换向</button>
             </form>
