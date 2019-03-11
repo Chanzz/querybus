@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load set_val %}
+{% block title %}
+首页
+{% endblock title %}
+
+{% block content %}
+<!-- 判断是否传入参数，否则不渲染-->
+{% if sn %}
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <!-- 渲染车站列表-->
+            {% for s in sn %}
+                <th style="font-size:smaller">{{s}}</th>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            {% for s in bus %}
+            <!-- 嵌套循环，遍历车辆位置列表和车站数字列表，并定义临时变量，当车辆位置等于车站数字后，跳出循环-->
+            {% with flag=1 %}
+                {% for d in n_list %}
+                    {% if d == s %}
+                        <th style="font-size:smaller">车</th>
+                        <!-- 修改临时变量的值为0-->
+                        {% set flag = 0 %}
+                    {% elif d != s and flag == 1 %}
+                        <th style="font-size:smaller"></th>
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
+            {% endfor %}
+        </tr>
+    </table>
+</div>
+<!-- 提交换向表单-->
+<div class="container" style="margin-bottom: 2%">
+    <div class="row">
+        <div class="col-12">
+            <br>
+            <form method="post" action="/search/reverse/">
+                {% csrf_token %}
+                 <button type="submit" class="btn btn-primary" style="float:left;">换向</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
